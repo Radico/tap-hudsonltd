@@ -1,11 +1,14 @@
 from tap_kit import main_method
 from .executor import HudsonltdExecutor
-from .client import BaseClient
+from .client import HudsonClient
 from .profile import ProfileStream
 from .reservation import ReservationStream
 
 
 REQUIRED_CONFIG_KEYS = [
+	'user_id',
+	'pw',
+	'accountdomain',
 ]
 
 STREAMS = [
@@ -17,7 +20,7 @@ def main():
 	main_method(
 		REQUIRED_CONFIG_KEYS,
 		HudsonltdExecutor,
-		BaseClient,
+		HudsonClient,
 		STREAMS
 	)
 

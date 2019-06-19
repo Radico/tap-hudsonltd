@@ -1,8 +1,9 @@
 import singer
 import requests
 import backoff
-import time
-from requests.auth import HTTPBasicAuth
+
+from tap_kit import BaseClient
+
 
 LOGGER = singer.get_logger()
 
@@ -11,10 +12,12 @@ class RateLimitException(Exception):
     pass
 
 
-class BaseClient:
-    RATE_LIMIT_PAUSE = 30
-    url = None
-    auth_type = None
+class HudsonClient(BaseClient):
 
-    def __init__(self, config):
-        self.config = config
+    @staticmethod
+    def requests_method(method, request_config, body):
+        return requests.request(
+            method,
+            request_config['url'],
+            headers=request_config['headers'],
+            data=request_config['data'])

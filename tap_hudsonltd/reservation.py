@@ -1,13 +1,36 @@
 from tap_kit.streams import Stream
 import singer
 
+_META_FIELDS = {
+    'table-key-properties': 'key_properties',
+    'forced-replication-method': 'replication_method',
+    'valid-replication-keys': 'valid_replication_keys',
+    'replication-key': 'replication_key',
+    'selected-by-default': 'selected_by_default',
+    'incremental-search-key': 'incremental_search_key',
+    'api-path': 'api_path',
+    'request-token': 'request_token',
+}
 
 class ReservationStream(Stream):
+
+    def build_base_metadata(self, metadata):
+        for field in _META_FIELDS:
+            if self.meta_fields.get(_META_FIELDS[field]) is not None:
+                self.write_base_metadata(
+                    metadata, field, self.meta_fields[_META_FIELDS[field]]
+                )
+
+        self.write_base_metadata(metadata, 'inclusion', 'available')
+        self.write_base_metadata(metadata, 'schema-name', self.stream)
 
     stream = 'reservation'
 
     meta_fields = dict(
-
+        key_properties=['id'],
+        replication_method='incremental',
+        replication_key='PickupTOD',
+        request_token='ReservationsSimon-Filter',
     )
 
     schema = \

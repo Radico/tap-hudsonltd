@@ -12,4 +12,5 @@ class HudsonltdExecutor(TapExecutor):
     def __init__(self, streams, args, client):
         super().__init__(streams, args, client)
 
-        self.url = 'https://groometrans15.hudsonltd.net/api/'
+        self.url = (f'https://.{self.configd.get('accountdomain')}.hudsonltd.'
+                    f'net/api/')

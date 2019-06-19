@@ -10,7 +10,13 @@ LOGGER = singer.get_logger()
 class HudsonltdExecutor(TapExecutor):
 
     def __init__(self, streams, args, client):
+        """
+        Args:
+            streams: arr[Stream]
+            args: dict
+            client: BaseClient
+        """
         super().__init__(streams, args, client)
 
-        self.url = (f'https://.{self.configd.get('accountdomain')}.hudsonltd.'
+        self.url = (f'https://{self.config.get("accountdomain")}.hudsonltd.'
                     f'net/api/')

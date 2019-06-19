@@ -1,0 +1,11 @@
+*config.json
+*catalog.json
+*state.json
+
+
+.idea*
+*.egg-info*
+*.pyc
+test.out
+dist
+build

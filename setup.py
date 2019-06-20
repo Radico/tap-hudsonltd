@@ -15,6 +15,7 @@ setup(
         "pendulum==1.2.0",
         "xmltodict==0.11.0",
         "ipdb==0.8.1",
+        "bs4==0.0.1",
         "tap-kit @ git+https://github.com/Radico/tap-kit.git@master"
     ],
     dependency_links=[

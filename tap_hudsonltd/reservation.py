@@ -28,8 +28,8 @@ class ReservationStream(Stream):
 
     meta_fields = dict(
         key_properties=['id'],
-        replication_method='incremental',
-        replication_key='PickupTOD',
+        replication_method='full',
+        replication_key='pickuptod',
         request_token='ReservationsSimon-Filter',
     )
 

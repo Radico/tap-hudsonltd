@@ -43,41 +43,6 @@ class HudsonltdExecutor(TapExecutor):
         records = self.convert_to_json(res)
         transform_write_and_count(stream, records)
 
-
-    def call_incremental_stream(self, stream):
-        """Extracts a certain stream"""
-        last_updated = format_last_updated_for_request(
-            stream.update_and_return_bookmark(), self.replication_key_format)
-
-        request_config = {
-            'url': self.url,
-            'headers': self.build_headers(),
-            'run': True,
-            'data': self.build_body(stream)
-        }
-
-        while request_config['run']:
-            res = self.client.make_request(request_config, method='POST')
-
-            if res.status_code != 200:
-                raise AttributeError(f'Received status_code {res.status_code}')
-
-            records = self.convert_to_json(res)
-            transform_write_and_count(stream, records)
-            last_updated = self.get_latest_for_next_call(
-                records,
-                stream.stream_metadata['replication-key'],
-                last_updated
-            )
-            stream.update_bookmark(last_updated)
-            request_config = self.update_for_next_call(
-                last_updated,
-                stream,
-                request_config
-            )
-
-        return last_updated
-
     def build_headers(self):
         return {
             'Content-Type': 'application/xml',
@@ -105,18 +70,6 @@ class HudsonltdExecutor(TapExecutor):
 </ReadRecords>"""
         return xml_string
 
-    def update_for_next_call(self, last_updated, stream, request_config):
-        """Updates the body with the new last_updated or terminates"""
-        pendulum_last = pendulum.parse(pendulum.parse(last_updated).to_date_string())
-        yesterday = pendulum.yesterday('UTC')
-        if pendulum_last == yesterday:
-            request_config['run'] = False
-        else:
-            last_updated_pend = pendulum.parse(last_updated)
-            next_day = last_updated_pend.add(days=1).to_date_string()
-            request_config['data'] = self.build_body(stream)
-        return request_config
-
     @staticmethod
     def convert_to_json(res):
         """Converts xml request to json"""
@@ -131,10 +84,3 @@ class HudsonltdExecutor(TapExecutor):
                 record_dict[child.name] = child.text
             export_records.append(record_dict)
         return export_records
-
-    def get_latest_for_next_call(self, records, replication_key, last_updated):
-        return max([self.convert_to_datetime(r[replication_key]) for r in records] + [last_updated])
-
-    @staticmethod
-    def convert_to_datetime(date_str):
-        return pendulum.parse(date_str).to_date_string()

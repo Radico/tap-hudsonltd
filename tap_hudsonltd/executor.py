@@ -49,7 +49,6 @@ class HudsonltdExecutor(TapExecutor):
                 raise ValueError('Number of records returned is equal to '
                                  'hudson\'s limit. This means that we will be '
                                  'missing data.')
-            print(len(records))
             transform_write_and_count(stream, records)
 
             start_date = start_date.add(days=1)

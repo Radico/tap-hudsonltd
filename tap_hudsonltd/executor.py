@@ -7,8 +7,6 @@ import base64
 import pendulum
 from xml.etree import ElementTree
 from bs4 import BeautifulSoup
-import time
-
 
 LOGGER = singer.get_logger()
 
@@ -41,8 +39,6 @@ class HudsonltdExecutor(TapExecutor):
         }
 
         while request_config['run']:
-            print(f'the start date is {start_date} and the end date is {end_date}')
-            time.sleep(2)
             res = self.client.make_request(request_config, method='POST')
 
             if res.status_code != 200:
@@ -53,6 +49,7 @@ class HudsonltdExecutor(TapExecutor):
                 raise ValueError('Number of records returned is equal to '
                                  'hudson\'s limit. This means that we will be '
                                  'missing data.')
+            print(len(records))
             transform_write_and_count(stream, records)
 
             start_date = start_date.add(days=1)

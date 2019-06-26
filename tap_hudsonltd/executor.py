@@ -27,8 +27,7 @@ class HudsonltdExecutor(TapExecutor):
                     f'net/api/ReadRecords')
         self.MAX_RECORDS = 10000
 
-    def call_full_stream(self, stream):
-        """Extract a full stream"""
+    def call_incremental_stream(self, stream):
         start_date, end_date = self.intialize_dates(self)
 
         request_config = {
@@ -103,5 +102,7 @@ class HudsonltdExecutor(TapExecutor):
             children = record.findChildren()
             for child in children:
                 record_dict[child.name] = child.text
+            record_dict['date_pulled'] = pendulum.today(
+                'UTC').to_datetime_string()
             export_records.append(record_dict)
         return export_records

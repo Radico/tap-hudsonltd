@@ -29,7 +29,7 @@ class ProfileStream(Stream):
 
     meta_fields = dict(
         key_properties=['id'],
-        replication_method='full',
+        replication_method='incremental',
         replication_key='pickuptod',
         request_token='ProfilesSimon-Filter',
     )

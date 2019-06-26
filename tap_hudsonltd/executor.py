@@ -106,3 +106,13 @@ class HudsonltdExecutor(TapExecutor):
                 'UTC').to_datetime_string()
             export_records.append(record_dict)
         return export_records
+
+    def sync_stream(self, stream):
+        """Not using a bookmark for incremental stream"""
+        stream.write_schema()
+
+        if stream.is_incremental:
+            stream.set_stream_state(self.state)
+            last_updated = self.call_incremental_stream(stream)
+        else:
+            self.call_full_stream(stream)

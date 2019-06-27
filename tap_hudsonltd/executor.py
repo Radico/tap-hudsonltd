@@ -102,7 +102,7 @@ class HudsonltdExecutor(TapExecutor):
             children = record.findChildren()
             for child in children:
                 record_dict[child.name] = child.text
-            record_dict['date_pulled'] = pendulum.today(
+            record_dict['date_pulled'] = pendulum.now(
                 'UTC').to_datetime_string()
             export_records.append(record_dict)
         return export_records

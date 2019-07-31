@@ -5,7 +5,6 @@ from tap_kit.utils import timestamp_to_iso8601, transform_write_and_count, \
 import singer
 import base64
 import pendulum
-from xml.etree import ElementTree
 from bs4 import BeautifulSoup
 
 LOGGER = singer.get_logger()

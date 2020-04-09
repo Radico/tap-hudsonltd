@@ -37,7 +37,7 @@ class HudsonltdExecutor(TapExecutor):
         }
 
         while request_config['run']:
-            logger.info(f'Making request with config: {request_config}')
+            LOGGER.info(f'Making request with config: {request_config}')
             res = self.client.make_request(request_config, method='POST')
 
             if res.status_code != 200:

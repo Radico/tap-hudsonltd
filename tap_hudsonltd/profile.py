@@ -30,7 +30,7 @@ class ProfileStream(Stream):
     meta_fields = dict(
         key_properties=['id'],
         replication_method='incremental',
-        replication_key='pickuptod',
+        replication_key='RecordUpdateTOD',
         request_token='ProfilesSimon-Filter',
     )
 

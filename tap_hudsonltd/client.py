@@ -1,5 +1,6 @@
 import singer
 import requests
+import time
 
 from tap_kit import BaseClient
 

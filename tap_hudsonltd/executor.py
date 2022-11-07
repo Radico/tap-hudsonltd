@@ -59,8 +59,8 @@ class HudsonltdExecutor(TapExecutor):
     def intialize_dates(self):
         """Returns the dates a week before and a week after"""
         today = pendulum.today('UTC')
-        week_earlier = today.subtract(weeks=1)
-        week_later = today.add(weeks=1)
+        week_earlier = today.subtract(days=3)
+        week_later = today.add(days=2)
         return (week_earlier, week_later)
 
     def build_headers(self):

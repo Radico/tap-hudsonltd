@@ -37,5 +37,5 @@ class HudsonClient(BaseClient):
             else:
                 return response
 
-        logger.info(f"Reached maximum retries ({retries}), failing...")
+        LOGGER.info(f"Reached maximum retries ({retries}), failing...")
         raise ValueError("Maximum retries reached")

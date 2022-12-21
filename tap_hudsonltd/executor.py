@@ -57,10 +57,10 @@ class HudsonltdExecutor(TapExecutor):
 
     @staticmethod
     def intialize_dates(self):
-        """Returns the dates a week before and a week after"""
+        """Returns the dates 12h before and after"""
         today = pendulum.today('UTC')
-        day_earlier = today.subtract(days=1)
-        day_later = today.add(days=1)
+        day_earlier = today.subtract(hours=12)
+        day_later = today.add(hours=12)
         return (day_earlier, day_later)
 
     def build_headers(self):

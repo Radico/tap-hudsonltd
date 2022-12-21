@@ -6,10 +6,11 @@ import singer
 import base64
 import pendulum
 import time
+import datetime
 from bs4 import BeautifulSoup
 
 LOGGER = singer.get_logger()
-EXTRACTION_WINDOW = pendulum.duration(hours=1)
+EXTRACTION_WINDOW = datetime.timedelta(hours=1)
 
 
 class HudsonltdExecutor(TapExecutor):
@@ -27,6 +28,7 @@ class HudsonltdExecutor(TapExecutor):
         self.url = (f'https://{self.config.get("accountdomain")}.hudsonltd.'
                     f'net/api/ReadRecords')
         self.MAX_RECORDS = 10000
+        LOGGER.info(f'extraction window: {EXTRACTION_WINDOW}')
 
     def call_incremental_stream(self, stream):
         start_date, end_date = self.intialize_dates(self)

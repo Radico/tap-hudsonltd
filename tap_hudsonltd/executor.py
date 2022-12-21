@@ -5,9 +5,11 @@ from tap_kit.utils import timestamp_to_iso8601, transform_write_and_count, \
 import singer
 import base64
 import pendulum
+import time
 from bs4 import BeautifulSoup
 
 LOGGER = singer.get_logger()
+EXTRACTION_WINDOW = pendulum.duration(hours=1)
 
 
 class HudsonltdExecutor(TapExecutor):
@@ -49,18 +51,19 @@ class HudsonltdExecutor(TapExecutor):
                                  'missing data.')
             transform_write_and_count(stream, records)
 
-            start_date = start_date.add(days=1)
+            start_date = start_date + EXTRACTION_WINDOW
             if start_date == end_date:
                 request_config['run'] = False
             else:
                 request_config['data'] = self.build_body(stream, start_date)
+            time.sleep(30)
 
     @staticmethod
     def intialize_dates(self):
-        """Returns the dates 12h before and after"""
+        """Returns the dates EXTRACTION_WINDOW before and after"""
         today = pendulum.today('UTC')
-        day_earlier = today.subtract(hours=12)
-        day_later = today.add(hours=12)
+        day_earlier = today - EXTRACTION_WINDOW
+        day_later = today + EXTRACTION_WINDOW
         return (day_earlier, day_later)
 
     def build_headers(self):
@@ -79,7 +82,7 @@ class HudsonltdExecutor(TapExecutor):
         """Builds request in xml format"""
         stream_request_token = stream.stream_metadata['request-token']
         start_date_str = start_date.to_date_string()
-        next_day = start_date.add(days=1).to_date_string()
+        next_day = (start_date + EXTRACTION_WINDOW).to_date_string()
         xml_string = f"""<?xml version='1.0'?>
 <ReadRecords>
     <SiteId>a15515</SiteId>

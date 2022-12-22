@@ -21,7 +21,7 @@ class HudsonClient(BaseClient):
         backoff = 1.5
         attempt = 1
         while retries >= attempt:
-
+            LOGGER.info(request_config['data'], request_config['url'])
             response = requests.request(
                 method,
                 request_config['url'],

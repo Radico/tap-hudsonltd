@@ -63,8 +63,8 @@ class HudsonltdExecutor(TapExecutor):
     def intialize_dates(self):
         """Returns the dates EXTRACTION_WINDOW before and after"""
         now = datetime.datetime.utcnow()
-        window_start = today - EXTRACTION_WINDOW
-        window_end = today + EXTRACTION_WINDOW
+        window_start = now - EXTRACTION_WINDOW
+        window_end = now + EXTRACTION_WINDOW
         return (window_start, window_end)
 
     def build_headers(self):

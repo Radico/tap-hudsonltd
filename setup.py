@@ -11,8 +11,7 @@ setup(
     py_modules=["tap_hudsonltd"],
     install_requires=[
         "singer-python==5.2.0",
-        'requests==2.18.4',
-        "pendulum==1.2.0",
+        "requests==2.18.4",
         "xmltodict==0.11.0",
         "ipdb==0.8.1",
         "bs4==0.0.1",

@@ -4,7 +4,6 @@ from tap_kit.utils import timestamp_to_iso8601, transform_write_and_count, \
 
 import singer
 import base64
-import pendulum
 import time
 import datetime
 from bs4 import BeautifulSoup
@@ -63,10 +62,10 @@ class HudsonltdExecutor(TapExecutor):
     @staticmethod
     def intialize_dates(self):
         """Returns the dates EXTRACTION_WINDOW before and after"""
-        today = pendulum.today('UTC')
-        day_earlier = today - EXTRACTION_WINDOW
-        day_later = today + EXTRACTION_WINDOW
-        return (day_earlier, day_later)
+        now = datetime.datetime.utcnow()
+        window_start = today - EXTRACTION_WINDOW
+        window_end = today + EXTRACTION_WINDOW
+        return (window_start, window_end)
 
     def build_headers(self):
         return {
@@ -106,8 +105,7 @@ class HudsonltdExecutor(TapExecutor):
             children = record.findChildren()
             for child in children:
                 record_dict[child.name] = child.text
-            record_dict['date_pulled'] = pendulum.now(
-                'UTC').to_datetime_string()
+            record_dict['date_pulled'] = datetime.datetime.utcnow()
             export_records.append(record_dict)
         return export_records
 

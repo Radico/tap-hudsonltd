@@ -105,7 +105,9 @@ class HudsonltdExecutor(TapExecutor):
             children = record.findChildren()
             for child in children:
                 record_dict[child.name] = child.text
-            record_dict['date_pulled'] = datetime.datetime.utcnow()
+            record_dict['date_pulled'] = datetime.datetime.utcnow().strftime(
+                "%Y-%m-%d %H:%M:%S")
+
             export_records.append(record_dict)
         return export_records
 

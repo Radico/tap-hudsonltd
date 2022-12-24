@@ -30,7 +30,7 @@ class HudsonltdExecutor(TapExecutor):
         LOGGER.info(f'extraction window: {EXTRACTION_WINDOW}')
 
     def call_incremental_stream(self, stream):
-        start_date, end_date = self.intialize_dates(self)
+        start_date, end_date = self.initialize_dates(self)
 
         request_config = {
             'url': self.url,
@@ -60,7 +60,7 @@ class HudsonltdExecutor(TapExecutor):
             time.sleep(30)
 
     @staticmethod
-    def intialize_dates(self):
+    def initialize_dates(self):
         """Returns the dates EXTRACTION_WINDOW before and after"""
         now = datetime.datetime.utcnow()
         window_start = now - EXTRACTION_WINDOW
@@ -82,8 +82,8 @@ class HudsonltdExecutor(TapExecutor):
     def build_body(self, stream, start_date):
         """Builds request in xml format"""
         stream_request_token = stream.stream_metadata['request-token']
-        start_date_str = start_date.to_date_string()
-        next_day = (start_date + EXTRACTION_WINDOW).to_date_string()
+        start_date_str = start_date.strftime("%Y-%m-%d %H:%M:%S")
+        next_day = (start_date + EXTRACTION_WINDOW).strftime("%Y-%m-%d %H:%M:%S")
         xml_string = f"""<?xml version='1.0'?>
 <ReadRecords>
     <SiteId>a15515</SiteId>

@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 
 LOGGER = singer.get_logger()
 EXTRACTION_WINDOW = datetime.timedelta(hours=1)
+LOOKBACK_WINDOW = datetime.timedelta(days=2)
 
 
 class HudsonltdExecutor(TapExecutor):
@@ -63,8 +64,8 @@ class HudsonltdExecutor(TapExecutor):
     def initialize_dates(self):
         """Returns the dates EXTRACTION_WINDOW before and after"""
         now = datetime.datetime.utcnow()
-        window_start = now - EXTRACTION_WINDOW
-        window_end = now + EXTRACTION_WINDOW
+        window_start = now - LOOKBACK_WINDOW
+        window_end = now + LOOKBACK_WINDOW
         return (window_start, window_end)
 
     def build_headers(self):

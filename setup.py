@@ -11,7 +11,7 @@ setup(
     py_modules=["tap_hudsonltd"],
     install_requires=[
         "singer-python==5.2.0",
-        "requests==2.18.4",
+        "requests==2.20.0",
         "xmltodict==0.11.0",
         "bs4==0.0.1",
         "tap-kit @ git+https://github.com/Radico/tap-kit.git@main"

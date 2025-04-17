@@ -3,15 +3,15 @@ from setuptools import setup
 
 setup(
     name="tap-hudsonltd",
-    version="0.1.1",
+    version="0.1.2",
     description="Singer.io tap for extracting data",
     author="Simon Data",
     url="http://simondata.com",
     classifiers=["Programming Language :: Python :: 3 :: Only"],
     py_modules=["tap_hudsonltd"],
     install_requires=[
-        "singer-python==5.2.0",
-        "requests==2.18.4",
+        "singer-python==6.1.1",
+        "requests==2.32.3",
         "xmltodict==0.11.0",
         "bs4==0.0.1",
         "tap-kit @ git+https://github.com/Radico/tap-kit.git@main"
